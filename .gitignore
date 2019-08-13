@@ -1,0 +1,9 @@
+.vscode
+go/.vscode
+go/src/*.o
+go/*.h
+go_ncurses/*.a
+go_ncurses/.vscode
+go_ncurses/src/*.o
+go_ncurses/*.h
+go_ncurses/go
