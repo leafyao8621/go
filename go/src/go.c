@@ -1,4 +1,10 @@
+#include <stdio.h>
+#include <string.h>
 #include "go.h"
+
+void init(struct GoGame* game) {
+    memset(game, 0, sizeof(struct GoGame));
+}
 
 static inline void check_capture(struct GoGame* game,
                                  int row,
@@ -67,7 +73,7 @@ static inline void check_capture(struct GoGame* game,
                                 break;
                             }
                         }
-                        if (row) {
+                        if (col) {
                             if (game->board[ind - 1].stone) {
                                 if (game->board[ind - 1].stone !=
                                     game->turn + 1) {
@@ -96,8 +102,9 @@ static inline void check_capture(struct GoGame* game,
                 for (game->visited_iter = game->visited;
                      game->visited_iter != game->visited_end;
                      game->visited_iter++) {
-                    (*(game->visited_iter))->visited = 1;
+                    (*(game->visited_iter))->visited = 0;
                     if (success) {
+                        (*(game->visited_iter))->stone = 0;
                         (*(game->visited_iter))->capture = game->turn + 1;
                     }
                 }
@@ -108,9 +115,41 @@ static inline void check_capture(struct GoGame* game,
 
 void play(struct GoGame* game, int row, int col) {
     int ind = row * 19 + col;
-    if (!(game->board[ind].stone)) {
+    if (!(game->board[ind].stone) &&
+        !(game->board[ind].capture)) {
         game->board[ind].stone = game->turn + 1;
-        game->turn = !(game->turn);
         check_capture(game, row, col, ind);
+        game->turn = !(game->turn);
+    }
+}
+
+void print_board(struct GoGame* game) {
+    game->board_iter = game->board;
+    game->board_end = game->board + 361;
+    for (int i = 0; i < 19; i++) {
+        for (int j = 0; j < 19; j++, game->board_iter++) {
+            switch (game->board_iter->stone) {
+            case 0:
+                switch (game->board_iter->capture) {
+                case 0:
+                    printf("%c ", '_');
+                    break;
+                case 1:
+                    printf("%c ", '1');
+                    break;
+                case 2:
+                    printf("%c ", '2');
+                    break;
+                }
+                break;
+            case 1:
+                printf("%c ", 'O');
+                break;
+            case 2:
+                printf("%c ", 'X');
+                break;
+            }
+        }
+        putchar(10);
     }
 }

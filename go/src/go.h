@@ -8,6 +8,8 @@ struct GoGame {
         unsigned visited : 8;
         unsigned teritory : 8;
     } board[361],
+      *board_iter,
+      *board_end,
       *adj[4],
       *stack[361],
       *visited[361],
@@ -20,6 +22,8 @@ struct GoGame {
     _Bool turn, pass;
 };
 
+void init(struct GoGame* game);
 void play(struct GoGame* game, int row, int col);
-_Bool check(struct GoGame* game);
+_Bool pass(struct GoGame* game);
+void print_board(struct GoGame* game);
 #endif
