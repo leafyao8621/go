@@ -2,10 +2,10 @@
 go/.vscode
 go/src/*.o
 go/*.h
+go/*.a
 test/.vscode
 test/test
 go_ncurses/*.a
 go_ncurses/.vscode
 go_ncurses/src/*.o
-go_ncurses/*.h
 go_ncurses/go

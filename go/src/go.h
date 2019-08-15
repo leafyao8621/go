@@ -24,6 +24,6 @@ struct GoGame {
 
 void init(struct GoGame* game);
 void play(struct GoGame* game, int row, int col);
-_Bool pass(struct GoGame* game);
+int pass(struct GoGame* game);
 void print_board(struct GoGame* game);
 #endif
