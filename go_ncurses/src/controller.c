@@ -17,6 +17,7 @@ void initialize(void) {
     init(&game);
     initscr();
     cbreak();
+    noecho();
     keypad(stdscr, TRUE);
     getmaxyx(stdscr, r, c);
     show_turn();
