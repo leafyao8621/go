@@ -110,10 +110,16 @@ void main_loop(void) {
 }
 
 void cleanup(void) {
-    static const char* strs[4] = {"None", "O", "X", "Draw"};
+    static const char* strs[3] = {"", "O", "X"};
     clear();
-    mvprintw(r >> 1, (c - 13) >> 1, "%s", "Press Any Key");
-    mvprintw((r >> 1) + 1, (c - 13) >> 1, "Winner %4s", strs[winner]);
+    if (winner) {
+        if (winner != 3) {
+            mvprintw((r >> 1) + 1, (c - 11) >> 1, "Winner %4s", strs[winner]);
+        } else {
+            mvprintw((r >> 1) + 1, (c - 4) >> 1, "%s", "Draw");
+        }
+    }
+    mvprintw(r >> 1, (c - 13) >> 1, "%s", "Press Any Key");    
     getch();
     endwin();
 }
