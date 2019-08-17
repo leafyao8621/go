@@ -2,7 +2,7 @@
 #include "../../go/go.h"
 
 static struct GoGame game;
-static int r, c, cur_r, cur_c;
+static int r, c, cur_r, cur_c, winner;
 
 static inline void move_cursor(void) {
     move(cur_r + ((r - 19) >> 1), (cur_c << 1) + ((c - 37) >> 1));
@@ -58,7 +58,7 @@ static inline void render(void) {
 }
 
 void main_loop(void) {
-    for (;;) {
+    for (winner = 0; !winner;) {
         switch (getch()) {
         case 'Q':
         case 'q':
@@ -97,17 +97,23 @@ void main_loop(void) {
             break;
         case 'Z':
         case 'z':
-            play(&game, cur_r, cur_c);
+            winner = play(&game, cur_r, cur_c);
             render();
             show_turn();
             break;
+        case 'X':
+        case 'x':
+            winner = pass(&game);
+            show_turn();
         }
     }
 }
 
 void cleanup(void) {
+    static const char* strs[4] = {"None", "O", "X", "Draw"};
     clear();
     mvprintw(r >> 1, (c - 13) >> 1, "%s", "Press Any Key");
+    mvprintw((r >> 1) + 1, (c - 13) >> 1, "Winner %4s", strs[winner]);
     getch();
     endwin();
 }
